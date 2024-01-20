@@ -16,5 +16,18 @@ class AURASTUDY_API AAuraCharacter : public AAuraCharacterBase
 
 public:
 	AAuraCharacter();
+	void InitAbilitySystemActorInfo();
+/*
+ * begin CombatInterface 
+ */
+
+	virtual int32 GetLevel() override;
+	/*
+	 * End  CombatInterface 
+	 */
+	
+	//初始化ASC
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
 	
 };

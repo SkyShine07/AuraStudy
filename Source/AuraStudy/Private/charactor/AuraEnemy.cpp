@@ -2,9 +2,28 @@
 
 
 #include "Charactor/AuraEnemy.h"
-
+#include "Player/AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Player/AbilitySystem/AuraAttributeSet.h"
 
 #define CUSTOM_DEPTH_RED 250
+
+AAuraEnemy::AAuraEnemy()
+{
+    ASC=CreateDefaultSubobject<UAuraAbilitySystemComponent>(TEXT("AbilitySystem"));
+    ASC->SetIsReplicated(true);
+    ASC->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);    
+
+    AS=CreateDefaultSubobject<UAuraAttributeSet>("AS");
+    
+}
+
+void AAuraEnemy::BeginPlay()
+{
+    Super::BeginPlay();
+
+    ASC->InitAbilityActorInfo(this,this);
+    InitAttributesByGE();
+}
 
 void AAuraEnemy::HighLightActor()
 {
