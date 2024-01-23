@@ -15,7 +15,7 @@ AAuraEffectActor::AAuraEffectActor()
 void AAuraEffectActor::ApplyGameplayEffectToActor(AActor* TargetActor,TSubclassOf<UGameplayEffect> GE_EffectClass)
 {
 	UAbilitySystemComponent* ASC=UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
-	check(ASC);
+
 	if (ASC)
 	{
 		//利用GEffectContext将自己的数据传递到GE中
@@ -40,6 +40,9 @@ void AAuraEffectActor::RemoveGameplayInfiniteEffectFromActor(AActor* TargetActor
 {
 	UAbilitySystemComponent* ASC=UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 	check(ASC);
+
+	if (!ASC) return;
+	
 
 	//找到actor对应的GE_ActiveHandle,从ASC中移除效果，并删除TMAp中对应的Pair
 	

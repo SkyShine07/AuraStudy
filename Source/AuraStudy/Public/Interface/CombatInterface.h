@@ -24,5 +24,5 @@ class AURASTUDY_API ICombatInterface
 public:
 
 	virtual int32 GetLevel()=0;
-	
+	virtual FVector GetProjectileLocation()=0;
 };

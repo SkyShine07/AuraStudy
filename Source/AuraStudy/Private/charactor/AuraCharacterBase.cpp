@@ -5,6 +5,8 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Game/AuraGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -25,6 +27,17 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 }
 
 
+FVector AAuraCharacterBase::GetProjectileLocation()
+{
+	if (IsValid(Weapon))
+	{
+		return  Weapon->GetSocketLocation(WeaponProjectileSocket);
+	}
+	return FVector::Zero();
+}
+
+
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,20 +46,11 @@ void AAuraCharacterBase::BeginPlay()
 
 void AAuraCharacterBase::InitAttributesByGE()
 {
-	if(!IsValid(ASC)||!IsValid(GE_DefaultPrimaryAttribute)||!IsValid(GE_DefaultSencondaryAttribute)) return;
-	
-	FGameplayEffectContextHandle ContextHandle=ASC->MakeEffectContext();
-	ContextHandle.AddSourceObject(this);
-
-	//----初始化基础属性，派生属性
-	 FGameplayEffectSpecHandle PrimarySpecHandle = ASC->MakeOutgoingSpec(GE_DefaultPrimaryAttribute,1,ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*PrimarySpecHandle.Data);
-
-	FGameplayEffectSpecHandle SecendarySpecHandle = ASC->MakeOutgoingSpec(GE_DefaultSencondaryAttribute,1,ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SecendarySpecHandle.Data);
-
-	FGameplayEffectSpecHandle VitalSpecHandle = ASC->MakeOutgoingSpec(GE_DefaultVitalAttribute,1,ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*VitalSpecHandle.Data);
+	AAuraGameModeBase* GM=Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (GM)
+	{
+		GM->InitCharactorAttribute(GetAbilitySystemComponent(),CharactorType,GetLevel());
+	}
 	
 }
 

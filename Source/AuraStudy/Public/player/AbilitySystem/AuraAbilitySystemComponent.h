@@ -21,5 +21,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FGameplayAssetTag OnMessageTag;
-	
+
+	UFUNCTION(BlueprintCallable)
+	void AddAbilities(TArray<TSubclassOf<UGameplayAbility>> Abilites);
+
+	//响应输入的InputTag函数
+	void OnInputHeld(FGameplayTag& InputTag);
+	void OnInputPressed(FGameplayTag& InputTag);
+	void OnInputRelease(FGameplayTag& InputTag);
 };

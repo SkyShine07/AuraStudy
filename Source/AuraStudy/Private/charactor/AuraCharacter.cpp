@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "player/AuraPlayerState.h"
+#include "player/AbilitySystem/AuraAbilitySystemComponent.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -18,6 +19,7 @@ AAuraCharacter::AAuraCharacter()
 	bUseControllerRotationRoll=false;
 	bUseControllerRotationYaw=false;
 
+	CharactorType=ECharactorType::Elementalist;
 	//ASC=GetPlayerState()
 	
 }
@@ -47,7 +49,9 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	InitAbilitySystemActorInfo();
-	
+
+	UAuraAbilitySystemComponent* AuraAsc=Cast<UAuraAbilitySystemComponent>(ASC);
+	AuraAsc->AddAbilities(StartUpAbilities);
 }
 
 void AAuraCharacter::OnRep_PlayerState()

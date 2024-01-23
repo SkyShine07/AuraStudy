@@ -4,6 +4,7 @@
 
 #include "AbilitySystemInterface.h"
 #include "CoreMinimal.h"
+#include "DA/DA_CharcrorClassInfo.h"
 #include "GameFramework/Character.h"
 #include "Interface/CombatInterface.h"
 #include "AuraCharacterBase.generated.h"
@@ -11,6 +12,7 @@
 
 //角色的抽象基类，玩家控制角色和AI派生于此
 
+class UGameplayAbility;
 class UGameplayEffect;
 class UAuraAttributeSet;
 class UAuraAbilitySystemComponent;
@@ -27,8 +29,14 @@ public:
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAuraAttributeSet* GetAuraAttributeSet() const{return AS;};
 
-	virtual int32 GetLevel() override {return 1;};
+	virtual int32 GetLevel() override {return level;};
+
+	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly)
+	float level=1;
 	
+	virtual FVector GetProjectileLocation() override;
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Weapon")
+	FName WeaponProjectileSocket;
 protected:
 	
 	virtual void BeginPlay() override;
@@ -43,15 +51,17 @@ protected:
 	TObjectPtr<UAuraAttributeSet> AS;
 
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="GAS")
-	TSubclassOf<UGameplayEffect> GE_DefaultPrimaryAttribute;
-	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="GAS")
-	TSubclassOf<UGameplayEffect> GE_DefaultSencondaryAttribute;
+	//--初始GA
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="GAS")
-	TSubclassOf<UGameplayEffect> GE_DefaultVitalAttribute;
-//---初始化属性
+	TArray<TSubclassOf<UGameplayAbility>> StartUpAbilities;
+
+	
+	//---初始化属性
 	void InitAttributesByGE();
+	
+	
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="GAS")
+	ECharactorType CharactorType;
 	
 };

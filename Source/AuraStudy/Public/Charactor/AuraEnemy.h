@@ -37,8 +37,7 @@ protected:
 	UFUNCTION(BlueprintCallable,BlueprintPure)
 	bool GetIsHightLight(){return bHightLight;};
 
-	UPROPERTY(EditAnywhere)
-	int32 level=1;
+	
 	
 private:
 

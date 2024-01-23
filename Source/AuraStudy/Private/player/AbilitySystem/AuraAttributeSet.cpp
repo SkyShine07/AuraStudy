@@ -32,10 +32,15 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	Super::PostGameplayEffectExecute(Data);
 
 	//  #include "GameplayEffectExtension.h"
+
 	
 	if (Data.EvaluatedData.Attribute==GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
+
+		GEngine->AddOnScreenDebugMessage(-1,5,FColor::Red,
+						FString::Printf(TEXT( "%s of helath: %f"),*Data.Target.GetAvatarActor()->GetName(),GetHealth()));
+		
 	}
 
 	if (Data.EvaluatedData.Attribute==GetManaAttribute())

@@ -26,7 +26,7 @@ public:
 	//---接口
 	
 	virtual int32 GetLevel() override {return Level;} ;
-
+	virtual FVector GetProjectileLocation() override{return  FVector();};
 
 	
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;

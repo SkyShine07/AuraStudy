@@ -14,15 +14,20 @@ AAuraEnemy::AAuraEnemy()
     ASC->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);    
 
     AS=CreateDefaultSubobject<UAuraAttributeSet>("AS");
-    
+    CharactorType=ECharactorType::Warrior;
 }
 
 void AAuraEnemy::BeginPlay()
 {
     Super::BeginPlay();
 
+   
     ASC->InitAbilityActorInfo(this,this);
     InitAttributesByGE();
+    
+   UAuraAbilitySystemComponent* AuraAsc=Cast<UAuraAbilitySystemComponent>(ASC);
+    AuraAsc->AddAbilities(StartUpAbilities);
+
 }
 
 void AAuraEnemy::HighLightActor()
