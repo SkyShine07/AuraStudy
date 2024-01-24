@@ -58,7 +58,7 @@ void UAuraAbilitySystemComponent::OnInputHeld(FGameplayTag& InputTag)
 			AbilitySpecInputPressed(Spec);
 			TryActivateAbility(Spec.Handle);
 		
-			GEngine->AddOnScreenDebugMessage(-1,3,FColor::Red,InputTag.ToString());
+			//GEngine->AddOnScreenDebugMessage(-1,3,FColor::Red,InputTag.ToString());
 		}
 		
 	}

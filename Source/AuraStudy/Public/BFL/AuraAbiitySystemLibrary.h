@@ -25,4 +25,8 @@ public:
 	 UFUNCTION(BlueprintCallable)
 	static void ApplyDynamicInstanceEffectToTarget(AActor* TargetActor, FGameplayAttribute Attribute, UObject* SourceActor,
 	 EGameplayModOp::Type ModOp, float Num);
+
+	
+	UFUNCTION(BlueprintCallable)
+	static FGameplayEffectSpecHandle MakeGESpecWithSourcebjectApplyTargetViaSetByCaller(TSubclassOf<UGameplayEffect>GEClass,AActor* SourceActor, AActor* TargetActor,float level,FGameplayTag Tag,float Num);
 };

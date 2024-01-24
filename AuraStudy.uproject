@@ -11,7 +11,11 @@
 			"AdditionalDependencies": [
 				"Engine",
 				"GameplayAbilities",
-				"UMG"
+				"UMG",
+				"GamePlayTasks",
+				"GameplayTags",
+				"NavigationSystem",
+				"Niagara"
 			]
 		}
 	],
@@ -29,6 +33,14 @@
 		},
 		{
 			"Name": "MotionWarping",
+			"Enabled": true
+		},
+		{
+			"Name": "Niagara",
+			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
 			"Enabled": true
 		}
 	]

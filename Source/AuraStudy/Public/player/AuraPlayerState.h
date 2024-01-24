@@ -13,7 +13,7 @@ class UAuraAttributeSet;
  * 
  */
 UCLASS()
-class AURASTUDY_API AAuraPlayerState : public APlayerState,public IAbilitySystemInterface,public ICombatInterface
+class AURASTUDY_API AAuraPlayerState : public APlayerState,public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -25,8 +25,7 @@ public:
 
 	//---接口
 	
-	virtual int32 GetLevel() override {return Level;} ;
-	virtual FVector GetProjectileLocation() override{return  FVector();};
+	
 
 	
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;

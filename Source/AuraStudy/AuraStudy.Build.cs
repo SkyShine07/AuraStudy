@@ -9,9 +9,11 @@ public class AuraStudy : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore",
-											"EnhancedInput","GameplayAbilities" ,"GameplayTasks","GameplayTags"});
+											"EnhancedInput","GameplayAbilities" ,"GameplayTasks","GameplayTags",
+											"NavigationSystem","Niagara"
+		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {"NavigationSystem","Niagara" });
+		PrivateDependencyModuleNames.AddRange(new string[] { });
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

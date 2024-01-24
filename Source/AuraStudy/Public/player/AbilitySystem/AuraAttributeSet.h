@@ -24,8 +24,8 @@ class AURASTUDY_API UAuraAttributeSet : public UAttributeSet
 public:
 	UAuraAttributeSet();
 
-
-
+	
+	
 	/*
 	 * 主属性四个：力量，智力，活力，韧性
 	 */
@@ -89,6 +89,15 @@ public:
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_MaxMana,Category="Sencondary Attribute")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(ThisClass, MaxMana);
+
+	/*
+ * 元属性（计算用的中间过渡属性）
+	*/
+
+	UPROPERTY(BlueprintReadOnly,Category="MetaAttribute")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(ThisClass,IncomingDamage)
+
 
 	//重要属性
 	UPROPERTY(BlueprintReadOnly,ReplicatedUsing=OnRep_Health,Category="vital Attribute")

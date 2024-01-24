@@ -30,7 +30,14 @@ public:
 	UAuraAttributeSet* GetAuraAttributeSet() const{return AS;};
 
 	virtual int32 GetLevel() override {return level;};
+	virtual void Die() override;
+	
+	UFUNCTION(NetMulticast,Reliable)
+	void MultCastDie();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void Disslove();
+	
 	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly)
 	float level=1;
 	

@@ -21,7 +21,7 @@ public:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="Input")
 	FGameplayTag InputTag;
 
-	virtual UGameplayEffect* GetCooldownGameplayEffect() const override;
+	virtual const FGameplayTagContainer* GetCooldownTags() const override;
 	virtual UGameplayEffect* GetCostGameplayEffect() const override;
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category="CoolDown")

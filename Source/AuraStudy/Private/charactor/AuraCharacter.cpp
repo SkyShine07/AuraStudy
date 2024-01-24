@@ -37,12 +37,7 @@ void AAuraCharacter::InitAbilitySystemActorInfo()
 	
 }
 
-int32 AAuraCharacter::GetLevel()
-{
-	AAuraPlayerState* Ps=GetPlayerState<AAuraPlayerState>();
-	check(Ps);
-	return Ps->GetLevel();	
-}
+
 
 void AAuraCharacter::PossessedBy(AController* NewController)
 {
@@ -58,5 +53,6 @@ void AAuraCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 	InitAbilitySystemActorInfo();
-	
+
+
 }

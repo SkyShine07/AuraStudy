@@ -21,6 +21,12 @@ AAuraPlayerController::AAuraPlayerController()
 	
 }
 
+void AAuraPlayerController::Client_ShowDamageText_Implementation(float Damage,AActor* TargetActor,bool bCritial,bool bBlock)
+{
+	ShowDamage(Damage,TargetActor,bCritial,bBlock);
+}
+
+
 void AAuraPlayerController::PlayerTick(float DeltaTime)
 {
 	APlayerController::PlayerTick(DeltaTime);
@@ -34,13 +40,15 @@ void AAuraPlayerController::CursorTrace()
 	GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility,false,HitResult);
 	if (!HitResult.bBlockingHit) return;
 
-	
 	if (CurrentActor)
 	{
 		LastActor=CurrentActor;
 	}
+
 	
 	CurrentActor=Cast<IEnemyInterface>(HitResult.GetActor());
+
+	if (!CurrentActor) return ;
 	
 	//关闭上个高亮，开启当前的高亮
 	if (LastActor==CurrentActor)
@@ -50,7 +58,7 @@ void AAuraPlayerController::CursorTrace()
 	if (CurrentActor)
 	{
 		CurrentActor->HighLightActor();
-		if (LastActor)
+		if (LastActor&&Cast<IEnemyInterface>(LastActor))
 		{
 			LastActor->UnHighLightActor();
 		}
@@ -67,12 +75,11 @@ void AAuraPlayerController::BeginPlay()
 	//添加输入配置
 	check(AuraContext);
 	UEnhancedInputLocalPlayerSubsystem* inputSubsystem=ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-
-	check(inputSubsystem);
-	if (inputSubsystem)
-	{
-		inputSubsystem->AddMappingContext(AuraContext,0);
-	}
+	
+	if (inputSubsystem) inputSubsystem->AddMappingContext(AuraContext,0); ;
+	
+		
+	
 	
 
 

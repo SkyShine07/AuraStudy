@@ -16,11 +16,11 @@ void UProjectileSpellAbility::ActivateAbility(const FGameplayAbilitySpecHandle H
 	
 }
 
-void UProjectileSpellAbility::SpawnProjectile(FVector TargetLocation)
+AAuraProjectile*  UProjectileSpellAbility::SpawnProjectile(FVector TargetLocation)
 {
-	if (!GetAvatarActorFromActorInfo()) return;
+	if (!GetAvatarActorFromActorInfo()) return nullptr;
 
-	if(!GetAvatarActorFromActorInfo()->HasAuthority()) return;
+	if(!GetAvatarActorFromActorInfo()->HasAuthority()) return nullptr;
 
 	FTransform  Transform;
 
@@ -45,4 +45,9 @@ void UProjectileSpellAbility::SpawnProjectile(FVector TargetLocation)
 
 	
 	Projectile->FinishSpawning(Transform);
+
+	
+	Projectile->SetOwner(GetAvatarActorFromActorInfo());
+	
+	return Projectile;
 }

@@ -21,7 +21,7 @@ public:
  * begin CombatInterface 
  */
 
-	virtual int32 GetLevel() override;
+	
 	/*
 	 * End  CombatInterface 
 	 */

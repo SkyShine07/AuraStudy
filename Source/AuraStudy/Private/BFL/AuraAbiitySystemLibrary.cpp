@@ -46,3 +46,21 @@ void UAuraAbiitySystemLibrary::ApplyDynamicInstanceEffectToTarget(AActor* Target
 
 	return ;
 }
+
+FGameplayEffectSpecHandle UAuraAbiitySystemLibrary::MakeGESpecWithSourcebjectApplyTargetViaSetByCaller(TSubclassOf<UGameplayEffect> GEClass,
+	AActor* SourceActor, AActor* TargetActor,float level,FGameplayTag Tag,float Num)
+{
+	if (!SourceActor||!GEClass) return nullptr;
+
+	UAbilitySystemComponent* ASC=UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	if (!ASC) return nullptr;
+	FGameplayEffectContextHandle ContextHandle=ASC->MakeEffectContext();
+	ContextHandle.AddSourceObject(SourceActor);
+	FGameplayEffectSpecHandle SpecHandle= ASC->MakeOutgoingSpec(GEClass,level,ContextHandle);
+	SpecHandle.Data.Get()->SetSetByCallerMagnitude(Tag,Num);
+	
+	ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+
+	return SpecHandle;
+	
+}

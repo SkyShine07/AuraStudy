@@ -23,6 +23,12 @@ class AURASTUDY_API AAuraPlayerController : public APlayerController
 public:
 	AAuraPlayerController();
 
+	UFUNCTION(Client,Reliable)
+	void Client_ShowDamageText(float Damage,AActor* TargetActorb,bool bCritial,bool bBlock);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowDamage(float Damage,AActor* TargetActor,bool bCritial,bool bBlock);
+	
 protected:
 
 	void PlayerTick(float DeltaTime) override;

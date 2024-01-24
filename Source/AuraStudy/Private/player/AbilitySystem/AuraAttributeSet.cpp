@@ -3,7 +3,11 @@
 
 #include "player/AbilitySystem/AuraAttributeSet.h"
 #include "GameplayEffectExtension.h"
+#include "AuraEffectContext/AuraEffectContext.h"
+#include "GameFramework/Character.h"
+#include "Interface/CombatInterface.h"
 #include "Net/UnrealNetwork.h"
+#include "player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -33,13 +37,61 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	//  #include "GameplayEffectExtension.h"
 
+	if (Data.EvaluatedData.Attribute==GetIncomingDamageAttribute())
+	{
+		//---TODO:处理伤害值传入的情况（Damage不复制，GESpec根据ASC的网络复制模式（Minal，Mix，Full）执行在服务器，Damage在服务器端变化）
+		float LocalDamage=GetIncomingDamage();
+		SetIncomingDamage(0);
+		SetHealth(FMath::Clamp(GetHealth()-LocalDamage,0,GetMaxHealth()));
+
+		//TODO:显示伤害值
+		ACharacter* Character=Cast<ACharacter>(Data.EffectSpec.GetContext().GetSourceObject());
+		if(Character&&Character->Controller)
+		{
+			AAuraPlayerController* AuraPlayerController=Cast<AAuraPlayerController>(Character->Controller);
+		
+			if (AuraPlayerController)
+			{
+				FAuraEffectContext* AuraEffectContext= static_cast<FAuraEffectContext*>(Data.EffectSpec.GetContext().Get());
+				if (AuraEffectContext)
+				{
+					AuraPlayerController->Client_ShowDamageText(LocalDamage,Data.Target.GetAvatarActor(),
+															AuraEffectContext->GetIsCritial(),AuraEffectContext->GetIsBlock());
+				}
+				
+			}
+		}
+		
+		if (GetHealth()<=0.f)
+		{
+		//TODO:死亡
+			
+			ICombatInterface* CombatInterface=Cast<ICombatInterface>(Data.Target.GetAvatarActor());
+			
+			if (!CombatInterface) return ;
+		
+			CombatInterface->Die();
+			
+			GEngine->AddOnScreenDebugMessage(-1,5,FColor::Red,
+						FString::Printf(TEXT( "%s Has Death"),*Data.Target.GetAvatarActor()->GetName()));
+			return ;
+		}
+		//TODO:伤害效果
+
+		FGameplayTagContainer TagContainer;
+		TagContainer.AddTag(FGameplayTag::RequestGameplayTag(FName("Effect.HitReact")));
+		Data.Target.TryActivateAbilitiesByTag(TagContainer);
 	
+		
+		
+	}
 	if (Data.EvaluatedData.Attribute==GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(),0,GetMaxHealth()));
 
-		GEngine->AddOnScreenDebugMessage(-1,5,FColor::Red,
-						FString::Printf(TEXT( "%s of helath: %f"),*Data.Target.GetAvatarActor()->GetName(),GetHealth()));
+		GEngine->AddOnScreenDebugMessage(-1,5,FColor::Green,
+						FString::Printf(TEXT( "%s of helath: %f"),
+							*Data.Target.GetAvatarActor()->GetName(),GetHealth()));
 		
 	}
 
